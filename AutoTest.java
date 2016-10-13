@@ -66,15 +66,7 @@ public class AutoTest {
     @Test
     public void Login() throws InterruptedException{
         System.out.println("Case One on Start");
-        int Loop = 5 ;
-        while(Loop > 0 ) {
-            if (!driver.findElementById(resourceid.email).isDisplayed()){
-                Loop -- ;
-            }
-            else {
-                break ;
-            }
-        }
+        
         driver.findElementById(resourceid.email).sendKeys("ID");
         driver.pressKeyCode(4);
         driver.findElementById(resourceid.password).sendKeys("Password");
@@ -86,10 +78,70 @@ public class AutoTest {
         else {
             System.out.println("Login_Fail");
         }
-        driver.findElementById(resourceid.Setting).click();
-        driver.findElementById(resourceid.about).isDisplayed();
-        driver.scrollTo
+           driver.findElement(By.id(resourceid.email)).sendKeys("ID");
+        driver.pressKeyCode(4);
+        driver.findElementById(resourceid.password).sendKeys("PW");
+        driver.pressKeyCode(4);
+
+        driver.findElementById(resourceid.login_btu).click();
+        if (driver.findElementById(resourceid.EnterSession).isDisplayed() == true){
+            System.out.println("Login_Pass");
+        }
+        else {
+            System.out.println("Login_Fail");
+        }
+        //into Schedule Page
+            driver.findElementById(resourceid.Schedule).click();
+
+            if (driver.findElementById(resourceid.year).isDisplayed() == true) {
+                System.out.println("Schedule_Pass");
+            } else {
+                System.out.println("Schedule_Fail");
+            }
+        //into Vocabulary Page
+            driver.findElementById(resourceid.Vocabulary).click();
+
+            if (driver.findElementById(resourceid.Vocabulary).isDisplayed() == true) {
+                System.out.println("Vocabulary_Pass");
+            } else {
+                System.out.println("Vocabulary_Fail");
+            }
+        //into FreeSession Page
+            driver.findElementById(resourceid.FreeSession).click();
+
+            if (driver.findElementById(resourceid.FreeSession).isDisplayed() == true) {
+                System.out.println("FreeSession_Pass");
+            } else {
+                System.out.println("FreeSession_Fail");
+            }
+
+        //Logout
+            driver.findElementById(resourceid.Setting).click();
+            driver.findElementById(resourceid.about).isDisplayed();
+            scrollToExactElement("id", resourceid.logout_btu);
+            driver.findElementById(resourceid.logout_btu).click();
+
     }
+
+
+    //scroll to find Element in view
+    public void scrollToExactElement(String type,String str) {
+        if (type == "text"){
+        driver.findElementByAndroidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView" +
+                        "(new UiSelector().text(\"" + str + "\").instance(0))");
+    }
+        else if (type == "id"){
+            driver.findElementByAndroidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView" +
+                            "(new UiSelector().resourceId(\"" + str + "\").instance(0))");
+        }
+}
+    public void waitForScreenToLoad(AppiumDriver lDriver, WebElement element, int seconds){
+
+        WebDriverWait wait = new WebDriverWait(lDriver, seconds);
+       wait.until(ExpectedConditions.visibilityOf(element));
+   }
 
     /*@Test
     public void TestTwo() throws InterruptedException{
