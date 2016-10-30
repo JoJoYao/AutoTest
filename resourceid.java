@@ -18,4 +18,9 @@ public class resourceid {
     public static String positiveButton = "com.tutorabc.tutormobile:id/positiveButton";
     public static String negativeButton = "com.tutorabc.tutormobile:id/negativeButton";
     public static String about = "com.tutorabc.tutormobile:id/relativeTutorABC";
+    public static String year = "com.tutorabc.tutormobile:id/textYear";
+    public static String internet = "com.tutorabc.tutormobile:id/msgTextView";
+
+
 }
+

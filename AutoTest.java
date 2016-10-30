@@ -50,7 +50,7 @@ public class AutoTest {
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
 
         //設置等待秒數
-        driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         System.out.println("初始化 AppiumDriver");
     }
 
@@ -65,32 +65,64 @@ public class AutoTest {
 
     @Test
     public void Login() throws InterruptedException{
-        System.out.println("Case One on Start");
-        
-        driver.findElementById(resourceid.email).sendKeys("ID");
-        driver.pressKeyCode(4);
-        driver.findElementById(resourceid.password).sendKeys("Password");
-        driver.pressKeyCode(4);
-        driver.findElementById(resourceid.login_btu).click();
-        if (driver.findElementById(resourceid.EnterSession).isDisplayed() == true){
-            System.out.println("Login_Pass");
-        }
-        else {
-            System.out.println("Login_Fail");
-        }
-           driver.findElement(By.id(resourceid.email)).sendKeys("ID");
-        driver.pressKeyCode(4);
-        driver.findElementById(resourceid.password).sendKeys("PW");
-        driver.pressKeyCode(4);
+       System.out.println("Test Start");
 
-        driver.findElementById(resourceid.login_btu).click();
-        if (driver.findElementById(resourceid.EnterSession).isDisplayed() == true){
-            System.out.println("Login_Pass");
+            if (driver.findElementById(resourceid.email).isDisplayed() == true) {
+                driver.findElement(By.id(resourceid.email)).sendKeys("ID");
+                driver.pressKeyCode(4);
+                driver.findElementById(resourceid.password).sendKeys("PW");
+                driver.pressKeyCode(4);
+                driver.findElementById(resourceid.login_btu).click();
+
+                if (driver.findElementById(resourceid.EnterSession).isDisplayed() == true) {
+                    System.out.println("Login_Susses");
+                    return true;
+                }
+                else {
+                    System.out.println("Login_Fail");
+                    return false;
+                }
+            }
+
+            else if (driver.findElementById(resourceid.internet).isDisplayed() == true) {
+                System.out.println("Plz turn on Wifi");
+            }
+            else {
+                System.out.println("Test Fail");
+            }
+            return false;
         }
-        else {
-            System.out.println("Login_Fail");
-        }
+
+    @Test
         //into Schedule Page
+        public void Schedule_Page() throws InterruptedException{
+            try {
+                driver.findElementById(resourceid.Schedule).isDisplayed();
+            }
+            catch (Exception e1){
+                System.out.println("Not Found");
+                try {
+                    AllSettings.captureScreenShots();
+                }
+                catch(IOException e){
+
+                }
+            }
+
+        }
+    @Test
+        //logout
+        public void Logout() throws InterruptedException{
+        driver.findElementById(resourceid.Setting).click();
+        driver.findElementById(resourceid.about).isDisplayed();
+        scrollToExactElement("id", resourceid.logout_btu);
+        driver.findElementById(resourceid.logout_btu).click();
+        }
+
+
+
+
+
             driver.findElementById(resourceid.Schedule).click();
 
             if (driver.findElementById(resourceid.year).isDisplayed() == true) {
@@ -115,13 +147,10 @@ public class AutoTest {
                 System.out.println("FreeSession_Fail");
             }
 
-        //Logout
-            driver.findElementById(resourceid.Setting).click();
-            driver.findElementById(resourceid.about).isDisplayed();
-            scrollToExactElement("id", resourceid.logout_btu);
-            driver.findElementById(resourceid.logout_btu).click();
 
-    }
+
+
+
 
 
     //scroll to find Element in view
@@ -137,11 +166,6 @@ public class AutoTest {
                             "(new UiSelector().resourceId(\"" + str + "\").instance(0))");
         }
 }
-    public void waitForScreenToLoad(AppiumDriver lDriver, WebElement element, int seconds){
-
-        WebDriverWait wait = new WebDriverWait(lDriver, seconds);
-       wait.until(ExpectedConditions.visibilityOf(element));
-   }
 
     /*@Test
     public void TestTwo() throws InterruptedException{
