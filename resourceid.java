@@ -21,6 +21,8 @@ public class resourceid {
     public static String year = "com.tutorabc.tutormobile:id/textYear";
     public static String internet = "com.tutorabc.tutormobile:id/msgTextView";
 
+    public static String FOLDER_FOR_CAP = "screenshot";
+
 
 }
 
