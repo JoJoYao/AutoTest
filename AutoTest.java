@@ -64,114 +64,28 @@ public class AutoTest {
     }
 
     @Test
-    public void Login() throws InterruptedException{
-       System.out.println("Test Start");
+    public void allTests() {
+        System.out.println("Test Start");
+        //設true第一個判斷式才會做
+        boolean pass = true;
 
-            if (driver.findElementById(resourceid.email).isDisplayed() == true) {
-                driver.findElement(By.id(resourceid.email)).sendKeys("ID");
-                driver.pressKeyCode(4);
-                driver.findElementById(resourceid.password).sendKeys("PW");
-                driver.pressKeyCode(4);
-                driver.findElementById(resourceid.login_btu).click();
-
-                if (driver.findElementById(resourceid.EnterSession).isDisplayed() == true) {
-                    System.out.println("Login_Susses");
-                    return true;
-                }
-                else {
-                    System.out.println("Login_Fail");
-                    return false;
-                }
-            }
-
-            else if (driver.findElementById(resourceid.internet).isDisplayed() == true) {
-                System.out.println("Plz turn on Wifi");
-            }
-            else {
-                System.out.println("Test Fail");
-            }
-            return false;
+        if (pass) {
+            pass = UtilityTool.doLogin(driver);
+            System.out.println("doLogin : " + pass);
         }
 
-    @Test
-        //into Schedule Page
-        public void Schedule_Page() throws InterruptedException{
-            try {
-                driver.findElementById(resourceid.Schedule).isDisplayed();
-            }
-            catch (Exception e1){
-                System.out.println("Not Found");
-                try {
-                    AllSettings.captureScreenShots();
-                }
-                catch(IOException e){
-
-                }
-            }
-
-        }
-    @Test
-        //logout
-        public void Logout() throws InterruptedException{
-        driver.findElementById(resourceid.Setting).click();
-        driver.findElementById(resourceid.about).isDisplayed();
-        scrollToExactElement("id", resourceid.logout_btu);
-        driver.findElementById(resourceid.logout_btu).click();
+        //
+        if (pass) {
+            pass = UtilityTool.showSchedule(driver);
+            System.out.println("showSchedule : " + pass);
         }
 
+        //前一步驟為true才會進行
+        if (pass) {
+            pass = UtilityTool.doLogout(driver);
+            System.out.println("doLogout : " + pass);
+        }
 
-
-
-
-            driver.findElementById(resourceid.Schedule).click();
-
-            if (driver.findElementById(resourceid.year).isDisplayed() == true) {
-                System.out.println("Schedule_Pass");
-            } else {
-                System.out.println("Schedule_Fail");
-            }
-        //into Vocabulary Page
-            driver.findElementById(resourceid.Vocabulary).click();
-
-            if (driver.findElementById(resourceid.Vocabulary).isDisplayed() == true) {
-                System.out.println("Vocabulary_Pass");
-            } else {
-                System.out.println("Vocabulary_Fail");
-            }
-        //into FreeSession Page
-            driver.findElementById(resourceid.FreeSession).click();
-
-            if (driver.findElementById(resourceid.FreeSession).isDisplayed() == true) {
-                System.out.println("FreeSession_Pass");
-            } else {
-                System.out.println("FreeSession_Fail");
-            }
-
-
-
-
-
-
-
-    //scroll to find Element in view
-    public void scrollToExactElement(String type,String str) {
-        if (type == "text"){
-        driver.findElementByAndroidUIAutomator(
-                "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView" +
-                        "(new UiSelector().text(\"" + str + "\").instance(0))");
+        System.out.println("Test End");
     }
-        else if (type == "id"){
-            driver.findElementByAndroidUIAutomator(
-                    "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView" +
-                            "(new UiSelector().resourceId(\"" + str + "\").instance(0))");
-        }
-}
-
-    /*@Test
-    public void TestTwo() throws InterruptedException{
-        System.out.println("Case Two on Start");
-    }
-    */
-
-
 }
